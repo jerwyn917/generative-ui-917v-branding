@@ -58,6 +58,18 @@ const chart = root.container.children.push(am5xy.XYChart.new(root, {
 
 Rules: create objects with `.new(root, {...})`; set data with `data.setAll()` after configuring the series; call `root.dispose()` on unmount; never create a second Root in the same div.
 
+**No-build pages and artifacts** (no bundler): load the script builds from cdnjs, which define globals, and call them exactly as above with `am5`, `am5xy`, `am5percent`, `am5themes_Animated`, `am5themes_Responsive`:
+
+```html
+<script src="https://cdnjs.cloudflare.com/ajax/libs/amcharts5/5.21.5/index.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/amcharts5/5.21.5/xy.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/amcharts5/5.21.5/percent.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/amcharts5/5.21.5/themes/Animated.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/amcharts5/5.21.5/themes/Responsive.js"></script>
+```
+
+`index.js` must come first. Do not load amCharts through jsDelivr's `+esm` bundles: each entry bundles its own copy of the core, so `am5.color()` and `am5.percent()` values are not recognized by the chart modules. Full artifact rules: [../examples/generative-ui-artifact.md](../examples/generative-ui-artifact.md).
+
 ## Brand theme (apply to every chart)
 
 ```ts

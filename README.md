@@ -1,29 +1,46 @@
 # 917 Ventures Branding Skill
 
 A reusable Claude Skill that documents the official 917 Ventures brand and
-UI/UX design system so AI coding agents can reproduce it consistently across
-websites, dashboards, admin portals, reports and data visualizations.
+UI/UX design system and turns "visualize this", "chart these numbers",
+"build a dashboard" or "mock up a page" requests into branded, self-contained
+HTML artifacts (charts with amCharts 5). In a codebase it applies the same
+system to application UI.
 
-- **Source of truth:** https://917ventures.com, analyzed on 2026-10-22 (homepage, About Us, Portfolio, Partner With Us, Careers, News, 917V Life, Velocity; compiled Tailwind CSS; served assets).
-- **Charting standard:** amCharts 5 (https://www.amcharts.com).
+- **Source of truth:** https://917ventures.com, analyzed on 2026-10-22 (homepage, About Us, Portfolio, Partner With Us, Careers, News, 917V Life, Velocity; compiled Tailwind CSS; served assets). Artifact loading pattern verified 2026-10-29.
+- **Charting standard:** amCharts 5 (https://www.amcharts.com), loaded from cdnjs inside artifacts.
 - **Icon standard:** Heroicons v2 (verified in use on the site, extended as the standard).
+
+## How it works on Claude Desktop
+
+1. Install the skill (below).
+2. Ask Claude anything generative-UI shaped: "visualize this quarter's venture revenue", "turn this PDF report into a dashboard", "chart the attached CSV by region", "mock up the partner portal home". The skill's description matches these requests and loads automatically.
+3. Claude classifies the request (cards, table, chart, report, dashboard, mockup), inlines your data, and publishes one HTML artifact built from the starter in [examples/generative-ui-artifact.md](examples/generative-ui-artifact.md) with the brand tokens, logo, fonts and amCharts theme.
+4. Follow-ups ("make it a line chart", "add a status column") update the same artifact.
 
 ## How to install
 
-**Claude Code (project):** copy this directory to `.claude/skills/917-ventures-branding/` in the repository. Claude loads `SKILL.md` automatically when the task matches its description, or on `/917-ventures-branding`.
+**Claude Desktop / claude.ai (custom skill):** zip the folder so that `SKILL.md` is at the root of the archive, then upload it under Settings → Capabilities → Skills (the exact menu name may differ by release). The skill is then available in chats and projects.
+
+```bash
+cd /Users/917v-jnrabor/Documents/claude/generative-ui-skill && zip -r 917-ventures-branding.zip 917-ventures-branding -x "*.DS_Store"
+```
+
+**Claude Code (project):** copy this directory to `.claude/skills/917-ventures-branding/` in the repository; it loads when the task matches or on `/917-ventures-branding`.
 
 **Claude Code (personal):** copy to `~/.claude/skills/917-ventures-branding/`.
 
-**Claude.ai / API skills:** zip the directory (with `SKILL.md` at the root) and upload it as a custom skill.
+**Cowork:** add the folder as a skill or plugin; artifacts are written as `.html` files to the outputs folder.
 
-No code, scripts or build steps are required; the skill is Markdown only.
+No code, scripts or build steps are required; the skill is Markdown plus one Markdown asset file with the logo as data URIs.
 
 ## Structure
 
 ```
 917-ventures-branding/
-├── SKILL.md                         # entry point: instructions + file map + quick reference
+├── SKILL.md                         # entry point: generative-UI flow, core rules, file map, quick reference
 ├── README.md                        # this file
+├── assets/
+│   └── logo-data-uris.md            # horizontal logo + square mark as base64 data URIs for artifacts
 ├── brand/
 │   ├── brand-identity.md            # positioning, personality, voice, evidence labels
 │   ├── color-palette.md             # every verified HEX, semantic extensions, gradients, usage rules
@@ -42,6 +59,7 @@ No code, scripts or build steps are required; the skill is Markdown only.
 │   ├── accessibility.md             # computed contrast matrix, focus, semantics, checklist
 │   └── interaction-states.md        # hover/focus/active/disabled/loading/error matrices
 └── examples/
+    ├── generative-ui-artifact.md    # request → artifact flow, runtime constraints, HTML starter page with amCharts
     ├── dashboard-guidelines.md      # dashboard / admin portal blueprint + React skeleton
     └── report-guidelines.md         # report structure, print/PDF rules, export
 ```
@@ -61,8 +79,9 @@ Known gaps in the website that the skill corrects for products: brand blue at 4.
 2. Keep rules in one place: tokens in `design-tokens.md`, usage in the brand files, component behavior in `components.md`. Other files link rather than repeat.
 3. When a Proposed rule is confirmed by the brand team, change its label to Verified and note the source (brand book, Figma, decision date).
 4. Add new surfaces as files under `examples/` (e.g. `email-guidelines.md`) and register them in the "Where to look" table in `SKILL.md`.
-5. Record the analysis date in `SKILL.md` and this README on every update.
+5. When amCharts publishes a new 5.x release, re-test the cdnjs script build (`index.js`, `xy.js`, `percent.js`, themes) in an artifact, then bump the pinned version in `examples/generative-ui-artifact.md` and `SKILL.md`.
+6. Record the analysis date in `SKILL.md` and this README on every update.
 
 ## License and assets
 
-Logo and imagery are the property of 917 Ventures; this skill references them by URL and does not redistribute them. Fonts are Google Fonts (Unbounded, Montserrat; OFL). Heroicons is MIT. amCharts 5 requires a commercial license for production use without branding; see [design-system/charts-and-visualizations.md](design-system/charts-and-visualizations.md#library-version-and-licensing).
+Logo and imagery are the property of 917 Ventures; the skill embeds the two logo files as data URIs (artifacts cannot load remote images) for use by 917 Ventures and its agents only. Fonts are Google Fonts (Unbounded, Montserrat; OFL). Heroicons is MIT. amCharts 5 requires a commercial license for production use without branding; see [design-system/charts-and-visualizations.md](design-system/charts-and-visualizations.md#library-version-and-licensing).

@@ -1,78 +1,89 @@
 ---
 name: 917-ventures-branding
-description: Official 917 Ventures brand and UI/UX design guidelines. Use whenever building or modifying any website, dashboard, admin portal, data visualization, report, email template or other digital product for 917 Ventures (917V) — colors, typography, logo, Heroicons icon system, layout, components, forms, tables, amCharts charts, responsive rules, accessibility and interaction states. Trigger on "917 Ventures", "917V", "917ventures.com", or any UI work inside a 917 Ventures repository.
+description: 917 Ventures (917V) brand and generative-UI skill. Use for ANY request to visualize, chart, graph, plot, dashboard, scorecard, report, summarize visually, mock up, prototype, wireframe or design a page, screen, table, KPI view, infographic or data visualization, and for any UI or styling work in a 917 Ventures codebase. Produces branded single-file HTML artifacts (amCharts 5 for charts) or applies the brand to code. Triggers include "visualize", "chart this", "make a dashboard", "turn this into a report", "show me the numbers", "mockup", "landing page", "917 Ventures", "917V", "917ventures.com".
 ---
 
 # 917 Ventures Branding Skill
 
-You are building or changing user interface for **917 Ventures**. Apply this
-skill before writing any UI code, styles, charts or design documentation.
+You are producing user interface for **917 Ventures**. This skill applies in two modes:
 
-Source of truth: https://917ventures.com (analyzed 2026-10-22). Every file in
-this skill labels content as **Verified** (observed on the website) or
-**Proposed** (a documented extension for products the website does not cover).
-Follow both; when you rely on a Proposed rule, say so in your summary so the
-brand owner can confirm.
+- **Generative UI (default on Claude Desktop / claude.ai / Cowork):** the user asks to visualize, chart, report, dashboard, mock up or design something. The deliverable is a **rendered artifact** (a single self-contained HTML page) in 917 Ventures branding, built from the user's data. Follow [examples/generative-ui-artifact.md](examples/generative-ui-artifact.md).
+- **Codebase mode (Claude Code in a repository):** the user asks to build or change UI in an application. Apply the design system to code while preserving the app's architecture. Follow the "Where to look" table below.
 
-## Core instructions
+Source of truth for the brand: https://917ventures.com (analyzed 2026-10-22). Every file labels content **Verified** (observed on the website) or **Proposed** (documented extension). Follow both; mention in your reply when a result relies on Proposed rules.
 
-1. **Follow the documented brand** for every new or modified screen. Do not invent colors, fonts, icons, radii or shadows; take them from [design-system/design-tokens.md](design-system/design-tokens.md).
-2. **Reuse before you add.** Use the host project's existing components, utilities and libraries first. Restyle them with the brand tokens rather than introducing a new component library. Add a dependency only when the skill names it (Heroicons, amCharts) or the project already has it.
-3. **Stay consistent across pages.** One primary blue, two typefaces, 8px/15px radii, white cards on `#FAFBFF`. Match existing screens in the same app; do not redesign screens you were not asked to change.
-4. **Preserve the application.** Keep its architecture, routing, state management, data fetching and functionality unless explicitly instructed otherwise. Branding work is additive and visual.
-5. **Build responsive and accessible UI by default**: mobile-first, WCAG 2.1 AA contrast, visible focus, keyboard support, semantic HTML.
-6. **Implement interaction states** (hover, focus, active, disabled, loading, error, empty) using [design-system/interaction-states.md](design-system/interaction-states.md); never ship a data view without loading, empty and error states.
-7. **Use amCharts 5** for charts, dashboards and analytical reports; use tables, metric cards or text when they communicate better. Never add a competing chart library without a documented technical limitation.
-8. **Use Heroicons** for functional icons and the brand assets for identity; never mix icon libraries.
-9. **Consult the specific file before implementing a feature** (table below). Read only what the task needs.
-10. **Distinguish verified from proposed** in your output, and flag anything you could not match to the documentation as a recommendation, not a brand standard.
+## Generative UI flow (do this when asked to visualize, chart, report, dashboard, mock up)
+
+1. **Classify the request** with the table in [examples/generative-ui-artifact.md](examples/generative-ui-artifact.md#1-decide-what-to-render): metric cards, table, chart, report page, dashboard page, or UI mockup. Charts only when a trend, comparison, composition or distribution needs one ([charts-and-visualizations.md → When to use a chart](design-system/charts-and-visualizations.md#when-to-use-a-chart)); otherwise cards or a table.
+2. **Collect the data** from the conversation, uploaded files or connected tools and inline it as JSON. Never fabricate figures as real; if there is no data, use clearly labeled sample data and say so. Keep units, currency (₱) and period explicit.
+3. **Build one HTML artifact** from the starter page in [examples/generative-ui-artifact.md](examples/generative-ui-artifact.md#5-starter-page): brand tokens (light + dark), Unbounded + Montserrat from Google Fonts, the logo as a data URI from [assets/logo-data-uris.md](assets/logo-data-uris.md), amCharts 5 loaded from cdnjs as global scripts (`https://cdnjs.cloudflare.com/ajax/libs/amcharts5/5.21.5/index.js`, then `xy.js`, `percent.js`, `themes/Animated.js`, `themes/Responsive.js`) with the brand theme, and a table fallback if the scripts cannot load.
+4. **Respect the artifact runtime**: no external images, no downloads/print/export buttons, no iframes, responsive to 400px, complete on load, reduced-motion safe, 2–4 word title ([runtime constraints](examples/generative-ui-artifact.md#3-artifact-runtime-constraints)).
+5. **Use the right page pattern**: report → [examples/report-guidelines.md](examples/report-guidelines.md); dashboard → [examples/dashboard-guidelines.md](examples/dashboard-guidelines.md); mockup → [design-system/components.md](design-system/components.md).
+6. **Deliver**: publish the artifact, then reply in one or two lines with what was visualized, the data source and period, and any sample or Proposed elements. Offer a PDF/XLSX/PPTX only as a separate file if the user needs one; the artifact cannot download or print.
+7. **Iterate in place**: on follow-ups ("add a filter", "switch to bars"), update the same artifact rather than creating a new one.
+
+## Core rules (both modes)
+
+1. **Use only the documented brand**: colors, fonts, radii, shadows and spacing from [design-system/design-tokens.md](design-system/design-tokens.md). No new brand colors, no third typeface.
+2. **Reuse before you add.** In a codebase, use existing components and libraries first and restyle them with the tokens; add a dependency only when this skill names it (Heroicons, amCharts) or the project already has it.
+3. **Stay consistent**: one primary blue (`#407DC3`; `#3A6DBA` for small text), white cards on `#FAFBFF`, 8px controls / 15px cards, Unbounded for display and KPI numbers, Montserrat for everything else.
+4. **Preserve the application** in codebase mode: architecture, routing, state, data fetching and behavior stay unchanged unless the user asks. Do not restyle screens you were not asked to change.
+5. **Responsive and accessible by default**: mobile-first, WCAG 2.1 AA contrast ([accessibility.md](design-system/accessibility.md)), visible focus, keyboard support, semantic HTML, text alternatives for charts.
+6. **Implement states**: hover, focus, active, disabled, loading, empty, error ([interaction-states.md](design-system/interaction-states.md)). Never ship a data view without loading, empty and error states.
+7. **Charts = amCharts 5**, with the brand theme and categorical order from [charts-and-visualizations.md](design-system/charts-and-visualizations.md). Never introduce another chart library without a documented technical limitation.
+8. **Icons = Heroicons v2** for functional glyphs; brand assets for identity; never mix icon sets ([icons.md](brand/icons.md)).
+9. **Read the specific file before implementing** (table below). Read only what the task needs.
+10. **Say what is Verified vs Proposed** and flag anything you could not match to the documentation as a recommendation.
 
 ## Where to look
 
 | Task | Read |
 |---|---|
-| Any UI work (start here) | [design-system/design-tokens.md](design-system/design-tokens.md), [design-system/design-principles.md](design-system/design-principles.md) |
+| Visualize / chart / report / dashboard / mockup as an artifact | [examples/generative-ui-artifact.md](examples/generative-ui-artifact.md) (start here), then the pattern file below |
+| Logo for an artifact or single-file page | [assets/logo-data-uris.md](assets/logo-data-uris.md) |
+| Any codebase UI work (start here) | [design-system/design-tokens.md](design-system/design-tokens.md), [design-system/design-principles.md](design-system/design-principles.md) |
 | Colors, gradients, semantic colors | [brand/color-palette.md](brand/color-palette.md) |
 | Fonts, sizes, headings, KPI numerals | [brand/typography.md](brand/typography.md) |
-| Logo, favicon, imagery, brand assets | [brand/logo-and-assets.md](brand/logo-and-assets.md) |
+| Logo files, favicon, imagery rules | [brand/logo-and-assets.md](brand/logo-and-assets.md) |
 | Icons (library, sizes, colors) | [brand/icons.md](brand/icons.md) |
 | Brand voice, personality, positioning | [brand/brand-identity.md](brand/brand-identity.md) |
 | Page structure, app shell, grids, spacing | [design-system/layout-and-spacing.md](design-system/layout-and-spacing.md) |
 | Buttons, nav, sidebar, cards, badges, tabs, dialogs, alerts, tooltips, empty/loading/error | [design-system/components.md](design-system/components.md) |
 | Forms, inputs, search, selects, validation | [design-system/forms-and-inputs.md](design-system/forms-and-inputs.md) |
 | Tables, sorting, filtering, pagination, key–value lists | [design-system/tables-and-data-display.md](design-system/tables-and-data-display.md) |
-| Charts, dashboards' visuals, amCharts setup, formatting, export | [design-system/charts-and-visualizations.md](design-system/charts-and-visualizations.md) |
+| Chart selection, amCharts theme, formats, states, export, performance | [design-system/charts-and-visualizations.md](design-system/charts-and-visualizations.md) |
 | Breakpoints and mobile behavior | [design-system/responsive-design.md](design-system/responsive-design.md) |
 | Contrast, keyboard, screen readers | [design-system/accessibility.md](design-system/accessibility.md) |
 | Hover/focus/disabled/loading states | [design-system/interaction-states.md](design-system/interaction-states.md) |
-| Assembling a dashboard or admin portal | [examples/dashboard-guidelines.md](examples/dashboard-guidelines.md) |
-| Assembling a report (screen, PDF, print) | [examples/report-guidelines.md](examples/report-guidelines.md) |
+| Dashboard or admin portal layout | [examples/dashboard-guidelines.md](examples/dashboard-guidelines.md) |
+| Report layout (screen, PDF, print) | [examples/report-guidelines.md](examples/report-guidelines.md) |
 
 ## Quick reference (verified unless noted)
 
-- **Primary blue** `#407DC3` (`blue`) · small blue text `#3A6DBA` (`blue-2`) · text `#040815` · navy `#142741` · canvas `#FAFBFF` · borders `#D0D5DD` · focus `#50A6D8` · error `#D92D20` · success badge `#34C759` (text: proposed `#1E7A3C`).
-- **Gradients:** brand `#65DDF5 → #3A6DBA`; stat numerals `#DB6E4F → #DA4E8F`.
-- **Fonts:** Unbounded (display, KPI numbers) + Montserrat (everything else). Load via `next/font` or Google Fonts; `font-display: swap`.
-- **Buttons:** `bg-blue text-white px-8 py-3 font-bold rounded-lg hover:opacity-70 transition ease-linear delay-50 disabled:opacity-80`; outline variant `bg-white text-blue border border-blue`.
+- **Colors:** primary blue `#407DC3` · small blue text `#3A6DBA` · text `#040815` · navy `#142741` · canvas `#FAFBFF` · borders `#D0D5DD` · focus `#50A6D8` · error `#D92D20` · success text `#1E7A3C` (proposed) · selected/info surface `#EEF4FF` (proposed).
+- **Gradients:** brand `#65DDF5 → #3A6DBA`; stat numerals `#DB6E4F → #DA4E8F` (display sizes only).
+- **Fonts:** Unbounded (display, KPI numbers) + Montserrat (body, UI). Google Fonts: `https://fonts.googleapis.com/css2?family=Unbounded:wght@500;600;700&family=Montserrat:wght@400;500;600;700&display=swap`.
+- **Buttons:** `bg-blue text-white px-8 py-3 font-bold rounded-lg hover:opacity-70 transition ease-linear delay-50 disabled:opacity-80`; outline `bg-white text-blue border border-blue`.
 - **Inputs:** 44px, `border-[#D0D5DD] rounded-lg p-3 text-sm`, focus `border-[#50A6D8]` 2.5px; label 12px above; required `*` in `#D92D20`.
-- **Cards:** white, 15px radius (20px for stat cards), `shadow-xl` marketing / `shadow-sm` + light border in products, 24–32px padding.
+- **Cards:** white, 15px radius (20px stat cards), `shadow-xl` marketing / `shadow-sm` + light border in products, 20–32px padding.
 - **Header:** sticky white, `shadow-md`, 96px marketing / 64px app, logo 135–240px.
 - **Icons:** Heroicons v2, 24 outline default, 20 solid inline, `currentColor`.
-- **Charts:** amCharts 5 + brand theme; categorical order blue, coral, blue-2, cyan, pink, steel, navy, amber; tooltips navy with white text; `₱#,###`, `dd MMM yyyy`.
+- **Charts:** amCharts 5.21.5; series order blue, coral `#DB6E4F`, blue-2, cyan `#52BCD5`, pink `#DA4E8F`, steel `#8EA1BD`, navy, amber `#B45309`; tooltip navy/white; `₱#,###`, `dd MMM yyyy`; donut ≤ 6 slices; value axis from zero.
 - **Breakpoints:** sm 640 · md 768 · lg 1024 · xl 1280 (desktop nav) · 2xl 1440/1536.
+- **Artifact loading:** scripts from cdnjs (preferred), jsDelivr or unpkg only; amCharts from cdnjs script tags, never jsDelivr `+esm`; stylesheets from Google Fonts only; images as data URIs.
 
-## Workflow for a UI task
+## Codebase workflow
 
-1. Identify the surface (marketing page, app screen, dashboard, report) and read the matching files above.
-2. Inventory the host project: existing design tokens, component library, icon package, chart library, Tailwind config. Map them to this skill's tokens; extend the Tailwind config with [design-system/design-tokens.md](design-system/design-tokens.md) if tokens are missing.
-3. Implement with the documented components and states; reuse the project's components.
-4. Check: contrast of every new text/background pair, keyboard path, responsive behavior at 360px and 1440px, loading/empty/error states, chart checklist.
-5. Report what you built, which rules were Verified vs Proposed, and any deviation with its reason.
+1. Identify the surface (marketing page, app screen, dashboard, report) and read the matching files.
+2. Inventory the project: tokens, component library, icon package, chart library, Tailwind config. Map them to this skill's tokens; extend the Tailwind config from [design-system/design-tokens.md](design-system/design-tokens.md) if tokens are missing.
+3. Implement with the documented components and states, reusing project components.
+4. Check contrast of new pairings, keyboard path, 360px and 1440px layouts, loading/empty/error states, chart checklist.
+5. Report what changed, which rules were Verified vs Proposed, and any deviation with its reason.
 
 ## Do not
 
-- Introduce new brand colors, a third typeface, a different icon set, or another chart library.
-- Use gradient text below 24px, `success-green` or `light-grey` as small text, or `blue` for 12–14px regular text.
-- Remove focus styles, build a dark theme unprompted, add autoplaying motion, or use carousels in products.
-- Hotlink assets from 917ventures.com in production; copy them into the project.
-- Restyle unrelated screens or change application behavior while applying branding.
+- Introduce new brand colors, a third typeface, another icon set, or another chart library.
+- Use gradient text below 24px, `#34C759` or `#8D919F` as small text, or `#407DC3` for 12–14px regular text.
+- Remove focus styles, add autoplaying motion, or use carousels in products.
+- Put Export, Print or Download buttons inside an artifact, load external images, or hotlink 917ventures.com assets in production.
+- Present sample data as real, or restyle unrelated screens while applying branding.
