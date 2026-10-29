@@ -5,8 +5,9 @@ UI/UX design system and turns "visualize this", "chart these numbers",
 "build a dashboard" or "mock up a page" requests into branded visuals: interactive
 widgets inside the chat that the user can control (toggle, filter, drill down,
 send actions back to Claude) or self-contained HTML artifacts for full pages
-(charts with amCharts 5 in both). In a codebase it applies the same system to
-application UI.
+(charts with amCharts 5 in both: columns, lines, donuts, funnels, gauges, treemaps,
+sankeys, heatmaps, Philippine maps and more). In a codebase it applies the same
+system to application UI.
 
 - **Source of truth:** https://917ventures.com, analyzed on 2026-10-22 (homepage, About Us, Portfolio, Partner With Us, Careers, News, 917V Life, Velocity; compiled Tailwind CSS; served assets). Artifact and in-chat widget patterns verified 2026-10-29.
 - **Charting standard:** amCharts 5 (https://www.amcharts.com), loaded from cdnjs inside widgets and artifacts.
@@ -62,6 +63,7 @@ No code, scripts or build steps are required; the skill is Markdown plus one Mar
 │   └── interaction-states.md        # hover/focus/active/disabled/loading/error matrices
 └── examples/
     ├── interactive-chat-widget.md   # in-chat widget flow: chat ↔ widget control loop, host rules, tested starter with sendPrompt
+    ├── amcharts-recipes.md          # every amCharts family on cdnjs: modules, type picker, per-type recipes, verified 10-type switcher widget
     ├── generative-ui-artifact.md    # request → artifact flow, runtime constraints, HTML starter page with amCharts
     ├── dashboard-guidelines.md      # dashboard / admin portal blueprint + React skeleton
     └── report-guidelines.md         # report structure, print/PDF rules, export
