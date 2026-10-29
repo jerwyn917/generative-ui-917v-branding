@@ -2,20 +2,22 @@
 
 A reusable Claude Skill that documents the official 917 Ventures brand and
 UI/UX design system and turns "visualize this", "chart these numbers",
-"build a dashboard" or "mock up a page" requests into branded, self-contained
-HTML artifacts (charts with amCharts 5). In a codebase it applies the same
-system to application UI.
+"build a dashboard" or "mock up a page" requests into branded visuals: interactive
+widgets inside the chat that the user can control (toggle, filter, drill down,
+send actions back to Claude) or self-contained HTML artifacts for full pages
+(charts with amCharts 5 in both). In a codebase it applies the same system to
+application UI.
 
-- **Source of truth:** https://917ventures.com, analyzed on 2026-10-22 (homepage, About Us, Portfolio, Partner With Us, Careers, News, 917V Life, Velocity; compiled Tailwind CSS; served assets). Artifact loading pattern verified 2026-10-29.
-- **Charting standard:** amCharts 5 (https://www.amcharts.com), loaded from cdnjs inside artifacts.
+- **Source of truth:** https://917ventures.com, analyzed on 2026-10-22 (homepage, About Us, Portfolio, Partner With Us, Careers, News, 917V Life, Velocity; compiled Tailwind CSS; served assets). Artifact and in-chat widget patterns verified 2026-10-29.
+- **Charting standard:** amCharts 5 (https://www.amcharts.com), loaded from cdnjs inside widgets and artifacts.
 - **Icon standard:** Heroicons v2 (verified in use on the site, extended as the standard).
 
 ## How it works on Claude Desktop
 
 1. Install the skill (below).
 2. Ask Claude anything generative-UI shaped: "visualize this quarter's venture revenue", "turn this PDF report into a dashboard", "chart the attached CSV by region", "mock up the partner portal home". The skill's description matches these requests and loads automatically.
-3. Claude classifies the request (cards, table, chart, report, dashboard, mockup), inlines your data, and publishes one HTML artifact built from the starter in [examples/generative-ui-artifact.md](examples/generative-ui-artifact.md) with the brand tokens, logo, fonts and amCharts theme.
-4. Follow-ups ("make it a line chart", "add a status column") update the same artifact.
+3. Claude classifies the request (cards, table, chart, report, dashboard, mockup), inlines your data, and picks the surface: an **interactive widget in the chat** built from [examples/interactive-chat-widget.md](examples/interactive-chat-widget.md) when you want to explore or control the view (period toggles, filters, click a bar to drill down, ↗ buttons that send a request back to Claude), or a **full HTML artifact** built from [examples/generative-ui-artifact.md](examples/generative-ui-artifact.md) for reports, dashboards and mockups, with the brand tokens, logo, fonts and amCharts theme.
+4. You control the result from the conversation: follow-ups ("switch to quarterly", "only Velocity", "make it a line chart") re-render the widget with its state updated or update the same artifact; a widget's "Open as full dashboard ↗" hands the current state to the artifact flow.
 
 ## How to install
 
@@ -59,6 +61,7 @@ No code, scripts or build steps are required; the skill is Markdown plus one Mar
 │   ├── accessibility.md             # computed contrast matrix, focus, semantics, checklist
 │   └── interaction-states.md        # hover/focus/active/disabled/loading/error matrices
 └── examples/
+    ├── interactive-chat-widget.md   # in-chat widget flow: chat ↔ widget control loop, host rules, tested starter with sendPrompt
     ├── generative-ui-artifact.md    # request → artifact flow, runtime constraints, HTML starter page with amCharts
     ├── dashboard-guidelines.md      # dashboard / admin portal blueprint + React skeleton
     └── report-guidelines.md         # report structure, print/PDF rules, export

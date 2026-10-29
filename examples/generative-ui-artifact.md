@@ -11,6 +11,8 @@ uses are the verified ones from [../design-system/design-tokens.md](../design-sy
 
 ## 1. Decide what to render
 
+First decide the surface: if the user wants to interact with or control the visual from the chat and one view fits ~680px, render an in-chat widget instead ([interactive-chat-widget.md](interactive-chat-widget.md#1-widget-or-artifact)). Otherwise build an artifact from the table below.
+
 | Request shape | Render |
 |---|---|
 | A few headline numbers, status, totals | Metric cards (no chart) |
@@ -249,4 +251,4 @@ Copy this file, replace `DATA`, the copy and the sections. It contains the token
 
 ## Related files
 
-- [../assets/logo-data-uris.md](../assets/logo-data-uris.md), [../design-system/charts-and-visualizations.md](../design-system/charts-and-visualizations.md), [dashboard-guidelines.md](dashboard-guidelines.md), [report-guidelines.md](report-guidelines.md), [../design-system/components.md](../design-system/components.md)
+- [interactive-chat-widget.md](interactive-chat-widget.md) (in-chat widgets), [../assets/logo-data-uris.md](../assets/logo-data-uris.md), [../design-system/charts-and-visualizations.md](../design-system/charts-and-visualizations.md), [dashboard-guidelines.md](dashboard-guidelines.md), [report-guidelines.md](report-guidelines.md), [../design-system/components.md](../design-system/components.md)

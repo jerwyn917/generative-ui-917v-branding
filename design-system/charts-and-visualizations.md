@@ -58,7 +58,7 @@ const chart = root.container.children.push(am5xy.XYChart.new(root, {
 
 Rules: create objects with `.new(root, {...})`; set data with `data.setAll()` after configuring the series; call `root.dispose()` on unmount; never create a second Root in the same div.
 
-**No-build pages and artifacts** (no bundler): load the script builds from cdnjs, which define globals, and call them exactly as above with `am5`, `am5xy`, `am5percent`, `am5themes_Animated`, `am5themes_Responsive`:
+**No-build pages, artifacts and chat widgets** (no bundler): load the script builds from cdnjs, which define globals, and call them exactly as above with `am5`, `am5xy`, `am5percent`, `am5themes_Animated`, `am5themes_Responsive` (inside chat widgets skip the Animated theme and read text and grid colors from the host theme; see [../examples/interactive-chat-widget.md](../examples/interactive-chat-widget.md)):
 
 ```html
 <script src="https://cdnjs.cloudflare.com/ajax/libs/amcharts5/5.21.5/index.js"></script>
