@@ -65,6 +65,7 @@ No code, scripts or build steps are required; the skill is Markdown plus one Mar
     ├── interactive-chat-widget.md   # in-chat widget flow: chat ↔ widget control loop, host rules, tested starter with sendPrompt
     ├── amcharts-recipes.md          # every amCharts family on cdnjs: modules, type picker, per-type recipes, verified 10-type switcher widget
     ├── generative-ui-artifact.md    # request → artifact flow, runtime constraints, HTML starter page with amCharts
+    ├── media-cards.md               # discovery / recommendation answers with photos: gather via web search, widget starter, artifact variant
     ├── dashboard-guidelines.md      # dashboard / admin portal blueprint + React skeleton
     └── report-guidelines.md         # report structure, print/PDF rules, export
 ```
@@ -89,4 +90,4 @@ Known gaps in the website that the skill corrects for products: brand blue at 4.
 
 ## License and assets
 
-Logo and imagery are the property of 917 Ventures; the skill embeds the two logo files as data URIs (artifacts cannot load remote images) for use by 917 Ventures and its agents only. Fonts are Google Fonts (Unbounded, Montserrat; OFL). Heroicons is MIT. amCharts 5 requires a commercial license for production use without branding; see [design-system/charts-and-visualizations.md](design-system/charts-and-visualizations.md#library-version-and-licensing).
+Logo and imagery are the property of 917 Ventures; the skill embeds the two logo files as data URIs (artifacts cannot load remote images) for use by 917 Ventures and its agents only. Photos shown in media cards belong to the credited sites; the skill links them with a visible source credit and does not copy them. Fonts are Google Fonts (Unbounded, Montserrat; OFL). Heroicons is MIT. amCharts 5 requires a commercial license for production use without branding; see [design-system/charts-and-visualizations.md](design-system/charts-and-visualizations.md#library-version-and-licensing).

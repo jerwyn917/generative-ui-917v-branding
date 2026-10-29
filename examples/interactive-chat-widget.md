@@ -19,6 +19,7 @@ verified ones from [../design-system/design-tokens.md](../design-system/design-t
 |---|---|
 | The user wants to interact or decide from the chat: compare periods, filter a list, pick a segment, ask "what about Q2" | **Widget** |
 | One view fits in ~680px: a KPI row plus one or two charts, a comparison grid, a single record | **Widget** |
+| A list of real-world things to pick from (things to do, places, venues, products, people), up to ~8 items | **Widget** with media cards and photos ([media-cards.md](media-cards.md)) |
 | A full report or dashboard, many sections, a page the user will share or keep, a page mockup, print-like output | **Artifact** |
 | A table with many rows or columns | Markdown table in the reply, or an artifact; never inside a widget |
 | No inline widget tool in the current surface (Claude Code, Cowork) | Artifact |
@@ -68,8 +69,9 @@ Prefix every id with `v917-` so several widgets can live in one conversation.
 - **Icons.** The widget host preloads the Tabler outline webfont (`<i class="ti ti-chart-bar" aria-hidden="true"></i>`). Use it inside widgets; this is the one documented exception to the Heroicons rule in [../brand/icons.md](../brand/icons.md). Never the `-filled` variants, never emoji.
 - **Scripts** only from `cdnjs.cloudflare.com` (preferred), `cdn.jsdelivr.net`, `unpkg.com`, `esm.sh`, pinned. amCharts 5 loads exactly as in artifacts: `https://cdnjs.cloudflare.com/ajax/libs/amcharts5/5.21.5/index.js`, then the modules the chart needs (`xy.js`, `percent.js`, `radar.js`, `hierarchy.js`, `flow.js`, `map.js` + `geodata/philippinesLow.js`), then `themes/Responsive.js`; skip the Animated theme in widgets. Every chart family works in a widget, not only columns and lines: recipes for donut, funnel, gauge, treemap, sankey, heatmap, map, scatter and radar are in [amcharts-recipes.md](amcharts-recipes.md). Keep `paddingBottom: 20` for the free-build watermark. If `am5` is missing, draw HTML bars instead.
 - **Width.** The container is 680px wide and full-width on phones; use `repeat(auto-fit, minmax(160px, 1fr))` grids and `minmax(0, 1fr)` columns.
-- **Content.** No titles, headings or paragraphs of explanation inside the widget; the reply text carries them. Round every displayed number (`toFixed`, `toLocaleString`). Validate any input before acting on it and show an inline error in `var(--text-danger)`.
+- **Content.** No titles, headings or paragraphs of explanation inside the widget; the reply text carries them. Exception: a media card carries its item's name and one summary sentence ([media-cards.md](media-cards.md)). Round every displayed number (`toFixed`, `toLocaleString`). Validate any input before acting on it and show an inline error in `var(--text-danger)`.
 - **Accessibility.** First element is `<h2 class="sr-only">` with a one-sentence summary. Chart container has `role="img"` and an `aria-label`. Toggles use `aria-pressed`; buttons have visible text.
+- **Images.** Photos of the thing shown are welcome in widgets: `<img src="https://…" alt="…" loading="lazy" referrerpolicy="no-referrer">` with the URL copied from a search result, the official site or Wikimedia Commons, a source credit on the photo and an `error` handler that swaps in a branded placeholder tile. Never decorative stock photos, never data URIs (too heavy to stream). Pattern and starter in [media-cards.md](media-cards.md).
 - **No comments** in the HTML, CSS or JavaScript (they break streaming).
 - Links: plain `<a href="https://…">` open through the host's link dialog.
 
@@ -254,7 +256,8 @@ answer questions on its own; the default remains "control it from the chat".
 - [ ] `sr-only` summary first; `role="img"` + `aria-label` on the chart; `aria-pressed` on toggles
 - [ ] Numbers rounded; partial periods labeled ("Q4 to date"); sample data stated in the header line and the reply
 - [ ] Tables and explanations go in the reply, not the widget
+- [ ] Discovery lists use media cards: photos with credits, name, one-line summary, two tips, one ↗ action per card
 
 ## Related files
 
-- [generative-ui-artifact.md](generative-ui-artifact.md) (full pages), [amcharts-recipes.md](amcharts-recipes.md) (every chart type), [../design-system/charts-and-visualizations.md](../design-system/charts-and-visualizations.md) (chart choice, series order), [../brand/typography.md](../brand/typography.md), [../brand/icons.md](../brand/icons.md), [dashboard-guidelines.md](dashboard-guidelines.md)
+- [generative-ui-artifact.md](generative-ui-artifact.md) (full pages), [media-cards.md](media-cards.md) (places, products, people with photos), [amcharts-recipes.md](amcharts-recipes.md) (every chart type), [../design-system/charts-and-visualizations.md](../design-system/charts-and-visualizations.md) (chart choice, series order), [../brand/typography.md](../brand/typography.md), [../brand/icons.md](../brand/icons.md), [dashboard-guidelines.md](dashboard-guidelines.md)

@@ -46,9 +46,14 @@ Verified behaviors are marked; the rest are **Proposed** rules that follow stand
 
 Imagery style (Verified): photography is of real people (customers, team) in
 rounded crops; illustration is cosmic/space themed (globe, astronaut, planet)
-with soft gradients. **Proposed:** in products, use imagery only in empty
-states and onboarding; keep it to one illustration per screen, and prefer the
-abstract dot-grid/gradient treatment over stock photos.
+with soft gradients. **Proposed:** distinguish *decorative* imagery from
+*content* imagery. Decorative imagery (illustration, backgrounds, stock
+photos) belongs only in empty states and onboarding, one illustration per
+screen, preferring the abstract dot-grid/gradient treatment. Content imagery
+(a photo of the place, product, venue or person the UI is about) is part of
+the information and is encouraged wherever it helps the user recognize or
+choose: show it with a source credit and descriptive `alt`, never as a
+background. Pattern in [../examples/media-cards.md](../examples/media-cards.md).
 
 ## Asset handling in projects (Proposed)
 
